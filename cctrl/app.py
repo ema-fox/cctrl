@@ -66,11 +66,10 @@ class CVSType():
             Provides the cvs (repo) type by checking if given directory
             contains a ".git" or ".bzr" configuration directory.
         """
-        if os.path.exists(application_path + "/.git"):
-            return (CVSType.GIT, 'GitConfigFound')
-
-        if os.path.exists(application_path + "/.bzr"):
-            return (CVSType.BZR, 'BazaarConfigFound')
+        for (dirname, cvstype, msg) in [("/.git", CVSType.GIT, 'GitConfigFound'),
+                                        ("/.bzr", CVSType.BZR, 'BazaarConfigFound')]:
+            if os.path.exists(application_path + dirname):
+                return (cvstype, msg)
 
         return (None, None)
 
@@ -80,11 +79,10 @@ class CVSType():
             Provides the cvs (repo) type by checking environment variable
             PATH for existence of either Bazaar or Git.
         """
-        if check_installed_rcs('git'):
-            return (CVSType.GIT, 'GitExecutableFound')
-
-        if check_installed_rcs('bzr'):
-            return (CVSType.BZR, 'BazaarExecutableFound')
+        for (execname, cvstype, msg) in [('git', CVSType.GIT,'GitExecutableFound'),
+                                         ('bzr', CVSType.BZR, 'BazaarExecutableFound')]:
+            if check_installed_rcs(execname):
+                return (cvstype, msg)
 
         return (None, None)
 
