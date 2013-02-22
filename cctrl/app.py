@@ -66,9 +66,9 @@ class CVSType():
             Provides the cvs (repo) type by checking if given directory
             contains a ".git" or ".bzr" configuration directory.
         """
-        for (dirname, cvstype, msg) in [("/.git", CVSType.GIT, 'GitConfigFound'),
-                                        ("/.bzr", CVSType.BZR, 'BazaarConfigFound')]:
-            if os.path.exists(application_path + dirname):
+        for (dirname, cvstype, msg) in [(".git", CVSType.GIT, 'GitConfigFound'),
+                                        (".bzr", CVSType.BZR, 'BazaarConfigFound')]:
+            if os.path.exists(os.path.join(application_path, dirname)):
                 return (cvstype, msg)
 
         return (None, None)
